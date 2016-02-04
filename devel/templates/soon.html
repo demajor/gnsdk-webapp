@@ -1,0 +1,24 @@
+<html>
+  <head>
+	<head>
+		<meta charset=utf-8>
+		<!--
+		Copyright (c) 2014 by Doug Major
+		-->
+		<title>GNSDK WebApp</title>
+		<link rel="stylesheet" href="static/gnsdk-webapp.css">
+		<script src="index.js" href="static/gnsdk-webapp.js"></script>
+		<script src="jquery.js" href="static/gnsdk-webapp.js"></script>
+	</head>
+	<body>
+	<div id="container">
+	<div id="header" style="text-align: center; background-color: #e81c01; clear:both;">
+	<h2 style="margin-bottom:0;">GNSDK WebApp - Coming Soon</h2>
+	</div>
+	{% if info %}
+	<div id="header" style="text-align: center; background-color: #e81c01; clear:both;">
+	<h2 style="margin-bottom:0;">{{info}}</h2>
+	</div>
+	{% endif %}
+  </body>
+</html>

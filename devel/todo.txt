@@ -1,0 +1,15 @@
+NEXT STEPS
+
+.	try adding analysis to app start up
+.	add echo nest ID env var to virtualenv
+		export ECHO_NEST_API_KEY="CJZHOW62KHR7VIZ6T"
+.	change beat description to use underscores
+.	if beat already exists, 
+		do nothing
+	else 
+		kick off RQ job
+.	replace logic to analyze just the break, not the whole song.
+.	update page to signal when file is created
+.	create form to submit beat string
+.	create UI for specifying beat string by clicking on pieces in order
+.	include audio for pieces

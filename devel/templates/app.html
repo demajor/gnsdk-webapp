@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+ <html>	
+	<head>
+		<meta charset="utf-8">
+		<title>GNSDK WebApp</title>
+		<link rel="stylesheet" href="static/gnsdk-webapp.css">
+	</head>
+	<body>
+		<div id="container">
+			<h2 style="margin: 1;">GNSDK WebApp</h2>
+		</div>
+		<div id="menu">
+			<br />
+			<fieldset>
+				<legend><h4>Music ID search</h4></legend>
+				<script>
+					function formReset()
+					{document.getElementById("frm1").reset();}
+				</script>
+				<form action="/app?input_type=search" id="frm1">	
+					</select>
+					<input type="text" name="artist" placeholder="enter artist name" value="{% if request.args.get('artist', '')%}{{request.args.get('artist', '')}}{% endif %}"/>
+					<input type="text" name="album" placeholder="enter album title" value="{% if request.args.get('album', '')%}{{request.args.get('album', '')}}{% endif %}"/>
+					<input type="text" name="track" placeholder="enter track title" value="{% if request.args.get('track', '')%}{{request.args.get('track', '')}}{% endif %}"/>
+					<input type="submit" value="search" />
+					<input type="submit" onclick="formReset()" value="clear fields">
+				</form>
+			</fieldset>
+			<br/>
+			<fieldset>
+				<legend><h4>Music ID lookup</h4></legend>
+				<script>
+					function formReset()
+					{document.getElementById("frm2").reset();}
+				</script>
+				<form action="/app" id="frm2">	
+					<label form="input type">input</label>
+					<select name="type">
+						<option value="album_id" {% if request.args.get('type', '') == "album_id" %}selected{% endif %}>CDDB Album ID</option>
+						<option value="tui" {% if request.args.get('type', '') == "tui" %}selected{% endif %}>Track or Album TUI:Tag</option>
+						<option value="toc" {% if request.args.get('type', '') == "toc" %}selected{% endif %}>TOC</option>
+					</select>
+					<label for="lang">language</label>
+					<select name="lang">
+						<option value="eng" {% if request.args.get('lang', '') == "eng" %}selected{% endif %}>English</option>
+						<option value="qtb" {% if request.args.get('lang', '') == "qtb" %}selected{% endif %}>qtb</option>
+						<option value="qtd" {% if request.args.get('lang', '') == "qtd" %}selected{% endif %}>qtd</option>
+						<option value="dut" {% if request.args.get('lang', '') == "dut" %}selected{% endif %}>dut</option>
+						<option value="fre" {% if request.args.get('lang', '') == "fre" %}selected{% endif %}>fre</option>
+						<option value="ger" {% if request.args.get('lang', '') == "ger" %}selected{% endif %}>ger</option>
+						<option value="ita" {% if request.args.get('lang', '') == "ita" %}selected{% endif %}>ita</option>
+						<option value="jpn" {% if request.args.get('lang', '') == "jpn" %}selected{% endif %}>Japanese</option>
+						<option value="kor" {% if request.args.get('lang', '') == "kor" %}selected{% endif %}>Korean</option>
+						<option value="por" {% if request.args.get('lang', '') == "por" %}selected{% endif %}>por</option>
+						<option value="rus" {% if request.args.get('lang', '') == "rus" %}selected{% endif %}>rus</option>
+						<option value="spa" {% if request.args.get('lang', '') == "spa" %}selected{% endif %}>Spanish</option>
+						<option value="swe" {% if request.args.get('lang', '') == "swe" %}selected{% endif %}>swe</option>
+						<option value="tha" {% if request.args.get('lang', '') == "tha" %}selected{% endif %}>tha</option>
+						<option value="pol" {% if request.args.get('lang', '') == "pol" %}selected{% endif %}>Polish</option>
+						<option value="tur" {% if request.args.get('lang', '') == "tur" %}selected{% endif %}>Turkish</option>
+					</select>
+					<input type="text" name="id_input" placeholder="enter ID" value="{% if request.args.get('id_input', '')%}{{request.args.get('id_input', '')}}{% endif %}"/>
+					<input type="submit" value="search" />
+					<input type="submit" onclick="formReset()" value="clear fields">
+				</form>
+			</fieldset>
+		</div> <!-- end menu -->
+{% if unsupported %}
+		<font color="red">Unsupported input: {{unsupported}}</font> (not many inputs are wired up yet. try TOC or AlbumID. You so Haole, you dont even know you haole.)
+{% elif resolve %}
+		<font color="white">Pick one of the {{resolve}} results. (TODO)</font>
+{% elif no_results %}
+		<font color="white">No results for the given input. Sorry haole.</font>
+{% elif result %}
+		<div id="ImageReturn">
+			<ul id="Grid">
+				<article>
+					<section>
+						<li>
+							{% if result.content(gnsdk.kContentTypeImageCover) %}
+							<img class="cover-art"  src="http://{{result.content(gnsdk.kContentTypeImageCover).asset(gnsdk.kImageSizeSmall).url()}}" data-src-fullsize="http://{{result.content(gnsdk.kContentTypeImageCover).asset(gnsdk.kImageSizeLarge).url()}}" data-src-small="http://{{result.content(gnsdk.kContentTypeImageCover).asset(gnsdk.kImageSizeSmall).url()}}" alt="" />
+							<h4>cover art</h4>
+							{% else %}
+							<li><img class="cover-art" src="http://placehold.it/170x170/e81c01" data-src-fullsize="http://placehold.it/1080x1080/e81c01" data-src-small="http://placehold.it/170x170/e81c01" alt="" />
+							<h4>No cover art</h4>
+							{% endif %}
+						</li>
+						<li>
+							{% if result.artist().contributor().content(gnsdk.kContentTypeImageArtist) %}
+							<img class="artist-image" src="http://{{result.artist().contributor().content(gnsdk.kContentTypeImageArtist).asset(gnsdk.kImageSizeSmall).url()}}" data-src-fullsize="http://{{result.artist().contributor().content(gnsdk.kContentTypeImageArtist).asset(gnsdk.kImageSizeLarge).url()}}" data-src-small="http://{{result.artist().contributor().content(gnsdk.kContentTypeImageArtist).asset(gnsdk.kImageSizeSmall).url()}}" alt="" />
+							<h4>artist image</h4>
+							{% else %}
+							<img class="artist-image" src="http://placehold.it/170x170/e81c01" data-src-fullsize="http://placehold.it/1080x1080/e81c01" data-src-small="http://placehold.it/170x170/e81c01" alt="" />
+							<h4>No artist image</h4>
+							{% endif %}
+						</li>
+						<li>
+							{% if result.content(gnsdk.kLinkContentGenreArt) %}
+							<!--
+							<img class="genre-image" src="http://{{result.content(gnsdk.kLinkContentGenreArt).asset(gnsdk.kImageSizeSmall).url()}}" data-src-fullsize="http://{{result.content(gnsdk.kLinkContentGenreArt).asset(gnsdk.kImageSizeLarge).url()}}" data-src-small="http://{{result.content(gnsdk.kLinkContentGenreArt).asset(gnsdk.kImageSizeSmall).url()}}" alt="" />
+							<h4>genre image</h4>
+							-->
+							<img class="genre-image" src="http://placehold.it/170x170/e81c01" data-src-fullsize="http://placehold.it/1080x1080/e81c01" data-src-small="http://placehold.it/170x170/e81c01" alt="" />
+							<h4>No genre image</h4>
+							{% else %}
+							<img class="genre-image" src="http://placehold.it/170x170/e81c01" data-src-fullsize="http://placehold.it/1080x1080/e81c01" data-src-small="http://placehold.it/170x170/e81c01" alt="" />
+							<h4>No genre image</h4>
+							{% endif %}
+						</li>
+					</section>
+				</article>
+			</ul>
+		</div> <!-- ImageReturn -->
+		<!--
+			<font color="white">
+			<br>artist:         {{result.artist().name().display()}}
+			<br>album:          {{result.title().display()}}
+			<br>year:           {{result.year()}}
+			<br>lang:           {{result.language()}}
+			<br>label:          {{result.label()}}
+			<br>TUI:            {{result.tui()}}
+			<br>TUI tag:        {{result.tui_tag()}}
+			<br>genre level 1:  {{result.genre(1)}}
+			<br>genre level 2:  {{result.genre(2)}}
+			<br>genre level 3:  {{result.genre(3)}}
+			<br>x credit(s):    (jmctodo)
+ 
+ 				jmctodo for loop on tracks
+				track n
+			    title:        xxx
+			    artist:        xxx
+			    genre level 1: xxx
+			    genre level 2: xxx
+			    genre level 3: xxx
+			    tempo level 1: xxx
+			    tempo level 2: xxx
+			    tempo level 3: xxx
+	            n credit(s):
+                1. Unknown - Composer (Author/Publisher)
+                2. (P) 1997 Rounder Records Corp., Courtesy of Rounder Records by arrangement with Ocean Park Music Group - Publisher (Author/Publisher)
+                3. Alan Lomax - Composer (Author/Publisher)
+ 
+                album GDO: jmctodo
+                </font>
+        -->
+		<div class="text-return-box">
+			<h4>Artist Biography</h4>
+				{% if bio %}
+				<em class="description">{{bio}}</em>
+				{% else %}
+				<em class="description">[no bio]</em>
+				{% endif %}
+			<div id="in1-width"></div>
+		</div>
+		<div class="text-return-box">
+			<h4>Album Review</h4>
+				<!-- if result.content(gnsdk.kContentTypeReview).id() -->
+				{% if review %}
+				<em class="description">{{review}}</em>
+				{% else %}
+				<em class="description">[no review]</em>
+				{% endif %}
+  			<div id="in1-width"></div>
+		</div>
+{% else %}
+		<font color="white">Get started Haole! Try this Album ID: 3CD3N62S7232157U42870C48C954D92D3F87FDAA2B221E3A497P2</font>
+{% endif %}
+		<div id="footer">
+			<img src="static/images/gn-logo-175px.png">
+		</div>
+	</body>
+</html>
+

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+ <html>	
+	<head>
+		<meta charset="utf-8">
+		<title>GNSDK WebApp</title>
+		<link rel="stylesheet" href="static/gnsdk-webapp.css">
+		<script src="static/gnsdk-webapp.js"></script>
+	</head>
+<body>
+		<div id="container">
+			<h2 style="margin: 1;">GNSDK WebApp</h2>
+		</div>
+		<div id="menu">
+			<br />
+			<fieldset>
+				<legend><h4>Music ID search</h4></legend>
+					<script>
+						function formReset()
+						{document.getElementById("frm1").reset();}
+					</script>
+					<form action="gnsdk-webapp-result.html" id="frm1">	
+						<input type="text" name="artist" placeholder="enter artist name" />
+						<input type="text" name="album" placeholder="enter album title" />	
+						<input type="text" name="track" placeholder="enter track title" />
+						<input type="submit" value="search" />
+						<input type="submit" onclick="formReset()" value="clear fields">
+					</form>
+				</fieldset>
+				<br/>
+				<fieldset>
+					<legend><h4>Music ID lookup</h4></legend>
+					<script>
+						function formReset()
+						{document.getElementById("frm2").reset();}
+					</script>
+					<form action="gnsdk-webapp.html" id="frm2">	
+						<label form="input type">input type:</label>
+					<select name="input type">
+							<option value="album_id">CDDB Album ID</option>
+							<option value="tui">Track or Album TUI:Tag</option>
+							<option value="toc">TOC</option>
+						</select>
+						<label for="language">language:</label>
+						<select name="language">
+							<option value="eng">English</option>
+							<option value="qtb">Chinese (Simplified)</option>
+							<option value="qtd">Chinese (Traditional)</option>
+							<option value="dut">Dutch</option>
+							<option value="fre">French</option>
+							<option value="ger">German</option>
+							<option value="ita">Italian</option>
+							<option value="jpn">Japanese</option>
+							<option value="kor">Korean</option>
+							<option value="por">Portugese</option>
+							<option value="rus">Russian</option>
+							<option value="spa">Spanish</option>
+							<option value="swe">Swedish</option>
+							<option value="tha">Thai</option>
+							<option value="pol">Polish</option>
+							<option value="tur">Turkish</option>
+						</select>
+						<input type="text" name="id_input" placeholder="enter ID" />
+						<input type="submit" value="search" />
+						<input type="submit" onclick="formReset()" value="clear fields">
+					</form>
+				</fieldset>
+			</div> 
+			<div id="ImageReturn">
+				<ul id="Grid">
+					<article>
+						<section>
+							<li>
+								<img class="gn-image" id="cover-art" onclick="toggle_image(this)" src="http://placehold.it/170x170/e81c01" data-src-fullsize="http://placehold.it/300x300/e81c01" data-src-small="http://placehold.it/170x170/e81c01" alt="" />
+								<h4>cover art</h4>
+							</li>
+							<li>
+								<img class="gn-image" id="artist-image" onclick="toggle_image(this)" src="http://placehold.it/170x170/e81c01" data-src-fullsize="http://placehold.it/300x300/e81c01" data-src-small="http://placehold.it/170x170/e81c01" alt="" />
+								<h4>artist image</h4>
+							</li>
+							<li>
+								<img class="gn-image" id="genre-image" onclick="toggle_image(this)" src="http://placehold.it/170x170/e81c01" data-src-fullsize="http://placehold.it/300x300/e81c01" data-src-small="http://placehold.it/170x170/e81c01" alt="" />
+								<h4>genre image</h4>
+							</li>
+						</section>
+					</article>
+				</ul>
+			</div>
+				<div class="text-return-box">
+  				<h4>Artist Biography</h4>
+  					<em class="description"></em>
+  				<div id="in1-width"></div>
+			</div>
+			<div class="text-return-box">
+  				<h4>Album Review</h4>
+  					<em class="description"></em>
+  				<div id="in1-width"></div>
+			</div>
+			<div class="id-return-box">
+  				<h4>External Data</h4>
+  					<em class="description">
+  					<strong>Artist:</strong>  |
+  					<strong>Album:</strong>  |
+  					<strong>Album ID:</strong>  |
+  					<strong>Text Match Score:</strong>  |
+  					<strong>Year:</strong>  |
+  					<strong>Lang:</strong>  |
+  				<br>
+  					<strong>TUI ID:TUI tag</strong> 247594715:B79C63D6A5E5979482B0CC64E562630C
+  					</em>
+  				<div id="in1-width"></div>
+			</div>
+				
+			<div id="footer">
+				<img src="static/images/gn-logo-175px.png">
+			</div>
+		</div>
+	</body>
+</html>
+
